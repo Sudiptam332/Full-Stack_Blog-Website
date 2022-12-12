@@ -14,6 +14,7 @@ const Home = () => {
         try {
           const res = await axios.get(`/posts${cat}`);
           setPosts(res.data);
+          console.log(res.data);
         } catch (err) {
           console.log(err);
         }
@@ -62,14 +63,14 @@ const getText = (html) =>{
         {posts.map((post) => (
           <div className="post" key={post.id}>
             <div className="img">
-              <img src={`../upload/${post.img}`} alt="" />
+              <img src={`${post.img}`} alt="" />
             </div>
             <div className="content">
-              <Link className="link" to={`/post/${post.id}`}>
-                <h1>{post.title}</h1>
-              </Link>
+              <h1>{post.title}</h1>
               <p>{getText(post.desc)}</p>
-              <button>Read More</button>
+              <Link className="link" to={`/post/${post.id}`}>
+                <button>Read More</button>
+              </Link>
             </div>
           </div>
         ))}

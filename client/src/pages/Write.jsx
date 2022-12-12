@@ -7,9 +7,9 @@ import moment from "moment";
 
 const Write = () => {
   const state = useLocation().state;
-  const [value, setValue] = useState(state?.title || "");
-  const [title, setTitle] = useState(state?.desc || "");
-  const [file, setFile] = useState(null);
+  const [title, setTitle] = useState(state?.title || "");
+  const [value, setValue] = useState(state?.desc || "");
+  const [file, setFile] = useState(state?.img || "");
   const [cat, setCat] = useState(state?.cat || "");
 
   const navigate = useNavigate()
@@ -35,13 +35,13 @@ const Write = () => {
             title,
             desc: value,
             cat,
-            img: file ? imgUrl : "",
+            img: file,
           })
         : await axios.post(`/posts/`, {
             title,
             desc: value,
             cat,
-            img: file ? imgUrl : "",
+            img: file,
             date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
           });
           navigate("/")
@@ -56,6 +56,7 @@ const Write = () => {
         <input
           type="text"
           placeholder="Title"
+          value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
         <div className="editorContainer">
@@ -77,17 +78,12 @@ const Write = () => {
             <b>Visibility: </b> Public
           </span>
           <input
-            style={{ display: "none" }}
-            type="file"
-            id="file"
-            name=""
-            onChange={(e) => setFile(e.target.files[0])}
+          type="text"
+          placeholder=" Image URL "
+          value={file}
+          onChange={(e) => setFile(e.target.value)}
           />
-          <label className="file" htmlFor="file">
-            Upload Image
-          </label>
           <div className="buttons">
-            <button>Save as a draft</button>
             <button onClick={handleClick}>Publish</button>
           </div>
         </div>
